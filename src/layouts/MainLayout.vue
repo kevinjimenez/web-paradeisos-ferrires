@@ -1,18 +1,18 @@
 <template>
-  <div class="flex flex-col min-h-screen">
-    <!-- Top menu -->
-    <TopMenu />
+  <!-- <div class="flex flex-col min-h-screen"> -->
+  <!-- Top menu -->
+  <TopMenu />
 
-    <!-- Contend -->
-    <main class="flex-1 pb-24">
-      <RouterView />
-    </main>
+  <!-- Contend -->
+  <!-- <main class="flex-1 mb-48"> -->
+  <RouterView />
+  <!-- </main> -->
 
-    <!-- Footer -->
-    <div class="fixed bottom-0 left-0 right-0 z-50">
-      <CustomFooter />
-    </div>
-  </div>
+  <!-- Footer -->
+  <!-- <div class="fixed bottom-0 left-0 right-0 z-50"> -->
+  <CustomFooter />
+  <!-- </div> -->
+  <!-- </div> -->
 </template>
 
 <script setup lang="ts">
