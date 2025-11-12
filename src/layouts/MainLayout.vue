@@ -1,7 +1,7 @@
 <template>
   <!-- <div class="flex flex-col min-h-screen"> -->
   <!-- Top menu -->
-  <TopMenu />
+  <!-- <TopMenu /> -->
 
   <!-- Contend -->
   <!-- <main class="flex-1 mb-48"> -->
@@ -10,7 +10,7 @@
 
   <!-- Footer -->
   <!-- <div class="fixed bottom-0 left-0 right-0 z-50"> -->
-  <CustomFooter />
+  <!-- <CustomFooter /> -->
   <!-- </div> -->
   <!-- </div> -->
 </template>

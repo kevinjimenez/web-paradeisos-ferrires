@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+/* @import 'tailwindcss';
 @plugin "daisyui" {
   themes: false;
 }
@@ -7,4 +7,22 @@
   --color-primary: #0e1327;
   --color-secondary: #bc1d36;
   --color-white: #ffffff;
+} */
+
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes: light --default;
+}
+@plugin "daisyui/theme" {
+  name: 'light';
+  default: true;
+  --color-primary: #0e1327;
+  --color-secondary: #bc1d36;
+}
+@theme {
+  /* --color-primary-dark: #006b75;
+  --color-secondary-dark: rgb(167, 0, 97);
+  --color-info-light: #fffad4;
+  --color-info-dark: #4d4d4d; */
+  --font-display: 'Nunito Sans', 'Avenir', Helvetica, Arial, sans-serif;
 }
