@@ -1,6 +1,6 @@
 <template>
   <!-- <nav class="fixed top-0 left-0 z-20 w-full bg-red-500 py-2.5 px-6 sm:px-4"> -->
-  <nav class="fixed top-0 left-0 z-20 w-full py-2.5 px-6 sm:px-4 bg-white">
+  <nav class="w-full py-2.5 px-6 sm:px-4 bg-white">
     <a href="#" class="flex flex-col items-center justify-center my-4">
       <span
         class="self-center whitespace-nowrap text-4xl font-semibold text-primary tracking-[.25em]"

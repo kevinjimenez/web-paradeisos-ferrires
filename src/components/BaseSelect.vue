@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="flex flex-col items-start gap-2">
     <select
       :value="modelValue"
@@ -6,6 +6,7 @@
       @blur="$emit('blur')"
       :class="['select select-primary w-full', { 'border-secondary': error }]"
     >
+      <UsersIcon />
       <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
       <option
         v-for="option in options"
@@ -16,6 +17,33 @@
         {{ getOptionLabel(option) }}
       </option>
     </select>
+    <span v-if="error" class="text-secondary text-sm">{{ error }}</span>
+  </div>
+</template> -->
+
+<template>
+  <div class="flex flex-col items-start gap-2">
+    <div class="relative w-full">
+      <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-gray-500">
+        <slot />
+      </div>
+      <select
+        :value="modelValue"
+        @change="$emit('update:modelValue', ($event.target as HTMLSelectElement)?.value ?? '')"
+        @blur="$emit('blur')"
+        :class="['select select-primary w-full pl-10', { 'border-secondary': error }]"
+      >
+        <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
+        <option
+          v-for="option in options"
+          :key="getOptionValue(option)"
+          :value="getOptionValue(option)"
+          :disabled="getOptionDisabled(option)"
+        >
+          {{ getOptionLabel(option) }}
+        </option>
+      </select>
+    </div>
     <span v-if="error" class="text-secondary text-sm">{{ error }}</span>
   </div>
 </template>

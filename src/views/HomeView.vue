@@ -1,9 +1,17 @@
 <template>
   <section class="flex flex-col">
+    <section class="m-4 flex flex-col text-white items-center justify-center gap-y-5">
+      <h1 class="text-3xl">Explora las Islas Galápagos</h1>
+      <h2 class="text-xl w-2/3 text-pretty text-center">
+        Reserva tu viaje en ferry entre las islas más hermosas del mundo. Conectamos Santa Cruz, San
+        Cristóbal e Isabela.
+      </h2>
+      <h3 class="text-lg">3 Islas Principales Salidas Diarias Cómodo y Seguro</h3>
+    </section>
     <section class="m-4">
       <form
         @submit.prevent="onSubmit"
-        class="flex flex-col p-7 rounded-2xl w-full border border-gray-200 shadow-xl"
+        class="flex flex-col p-7 rounded-2xl w-full border border-gray-200 shadow-xl bg-white"
       >
         <div class="mb-4">
           <div class="flex gap-4">
@@ -57,6 +65,7 @@
 
         <div class="mb-4">
           <BaseInput
+            class="w-1/2"
             type="date"
             v-model="departureDate"
             v-bind="departureDateAttrs"
@@ -75,7 +84,9 @@
               { label: '3 pasajero', value: 3 },
             ]"
             :error="errors.numberPassengers"
-          />
+          >
+            <UsersIcon class="w-5 h-5"
+          /></BaseSelect>
         </div>
 
         <div class="my-4 flex">
@@ -83,7 +94,6 @@
         </div>
       </form>
     </section>
-    {{ values }}
   </section>
 </template>
 
@@ -94,6 +104,7 @@ import BaseInput from '@/components/BaseInput.vue';
 import BaseRadio from '@/components/BaseRadio.vue';
 import BaseSelect from '@/components/BaseSelect.vue';
 import SwitchHorizontalIcon from '@/icons/SwitchHorizontalIcon.vue';
+import UsersIcon from '@/icons/UsersIcon.vue';
 import { useForm } from 'vee-validate';
 import { computed, watch } from 'vue';
 import * as yup from 'yup';
