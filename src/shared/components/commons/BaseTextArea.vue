@@ -12,13 +12,9 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  modelValue?: string | number;
-  error?: string;
-  type?: 'text' | 'number';
-}
+import type { BaseTextAreaProps } from '@/shared/interfaces';
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<BaseTextAreaProps>(), {
   type: 'text',
 });
 

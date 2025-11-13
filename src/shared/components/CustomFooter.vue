@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import LikeIcon from '@/icons/LikeIcon.vue';
-</script>
-
 <template>
   <footer class="py-6 bg-primary text-white">
     <div class="flex flex-row mx-auto justify-center items-center gap-x-20">
@@ -31,3 +27,7 @@ import LikeIcon from '@/icons/LikeIcon.vue';
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+import LikeIcon from './icons/LikeIcon.vue';
+</script>
