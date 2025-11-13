@@ -5,7 +5,9 @@
     :class="[{ 'btn-circle': circle }]"
     @click="$emit('clickMe')"
   >
+    <slot name="prefix" />
     <slot />
+    <slot name="suffix" />
   </button>
 </template>
 
