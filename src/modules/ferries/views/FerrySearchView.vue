@@ -47,34 +47,44 @@
               label="Desde"
             />
 
-            <template v-if="values.ticketType === 'round_trip'">
-              <BaseButton circle @click-me="clickMe">
-                <SwitchHorizontalIcon />
-              </BaseButton>
+            <BaseButton circle @click-me="clickMe">
+              <SwitchHorizontalIcon />
+            </BaseButton>
 
-              <BaseSelect
-                class="w-1/3"
-                v-model="to"
-                v-bind="toAttrs"
-                :options="toOptions"
-                placeholder="Selecciona isla"
-                :error="errors.to"
-                label="Hacia"
-              />
-            </template>
+            <BaseSelect
+              class="w-1/3"
+              v-model="to"
+              v-bind="toAttrs"
+              :options="toOptions"
+              placeholder="Selecciona isla"
+              :error="errors.to"
+              label="Hacia"
+            />
           </div>
         </div>
 
         <div class="mb-4">
-          <BaseInput
-            class="w-1/2"
-            type="date"
-            v-model="departureDate"
-            v-bind="departureDateAttrs"
-            :error="errors.departureDate"
-            :min="new Date().toISOString().split('T')[0]"
-            label="Fecha de salida"
-          />
+          <div class="flex justify-between items-center gap-10">
+            <BaseInput
+              class="w-1/2"
+              type="date"
+              v-model="departureDate"
+              v-bind="departureDateAttrs"
+              :error="errors.departureDate"
+              :min="new Date().toISOString().split('T')[0]"
+              label="Fecha de salida"
+            />
+            <BaseInput
+              v-if="values.ticketType === 'round_trip'"
+              class="w-1/2"
+              type="date"
+              v-model="returnDate"
+              v-bind="returnDateAttrs"
+              :error="errors.returnDate"
+              :min="new Date().toISOString().split('T')[0]"
+              label="Fecha de regreso"
+            />
+          </div>
         </div>
 
         <div class="mb-4">
@@ -98,7 +108,6 @@
         </div>
       </form>
     </section>
-    {{ ferryStore.count }}
   </section>
 </template>
 
@@ -113,28 +122,32 @@ import { useForm } from 'vee-validate';
 import { computed, watch, type Ref } from 'vue';
 import * as yup from 'yup';
 import { useFerryStore } from '../stores/ferryStore';
+import { useRouter } from 'vue-router';
 
 interface FormValues {
   ticketType: 'one_way' | 'round_trip';
   from: string;
   to: string;
   departureDate: string;
+  returnDate: string;
   numberPassengers: number;
 }
 
 const validationSchema = yup.object({
   ticketType: yup.string().required().oneOf(['one_way', 'round_trip']),
   from: yup.string().required(),
-  to: yup.string().when('ticketType', {
+  to: yup.string().required(),
+  departureDate: yup.date().required(),
+  returnDate: yup.string().when('ticketType', {
     is: 'round_trip',
     then: (schema) => schema.required(),
     otherwise: (schema) => schema.notRequired(),
   }),
-  departureDate: yup.date().required(),
   numberPassengers: yup.number().required(),
 });
 
 const ferryStore = useFerryStore();
+const router = useRouter();
 const { values, errors, handleSubmit, defineField, setFieldValue } = useForm<FormValues>({
   validationSchema,
   initialValues: {
@@ -145,7 +158,8 @@ const { values, errors, handleSubmit, defineField, setFieldValue } = useForm<For
 const [ticketType, ticketTypeAttrs] = defineField('ticketType');
 const [from, fromAttrs] = defineField('from');
 const [to, toAttrs] = defineField('to');
-const [departureDate, departureDateAttrs] = defineField('departureDate');
+const [departureDate, departureDateAttrs] = defineField('departureDate'); // salida
+const [returnDate, returnDateAttrs] = defineField('returnDate'); // regreso
 const [numberPassengers, numberPassengersAttrs] = defineField('numberPassengers');
 
 const islandsOptions = [
@@ -176,7 +190,8 @@ const toOptions = computed(() => {
 
 const onSubmit = handleSubmit((values) => {
   console.log({ values });
-  ferryStore.increment();
+  ferryStore.setFerrySearch(values);
+  router.push({ name: 'ferries' });
 });
 
 const clickMe = () => {

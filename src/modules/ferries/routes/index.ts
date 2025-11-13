@@ -17,5 +17,14 @@ export const ferriesRoutes: RouteRecordRaw = {
         requiresAuth: false,
       },
     },
+    {
+      path: 'ferries',
+      name: 'ferries',
+      component: () => import('@/modules/ferries/views/FerriesView.vue'),
+      meta: {
+        title: 'Buscar del Ferry',
+        requiresAuth: false,
+      },
+    },
   ],
 };
