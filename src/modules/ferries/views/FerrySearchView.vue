@@ -36,7 +36,7 @@
         </div>
 
         <div class="mb-4">
-          <div class="flex justify-between gap-10">
+          <div class="flex justify-between items-center gap-10">
             <BaseSelect
               class="w-1/3"
               v-model="from"
@@ -44,12 +44,13 @@
               :options="fromOptions"
               placeholder="Selecciona isla"
               :error="errors.from"
+              label="Desde"
             />
 
             <template v-if="values.ticketType === 'round_trip'">
-              <BaseIconButton @click-me="clickMe">
+              <BaseButton circle @click-me="clickMe">
                 <SwitchHorizontalIcon />
-              </BaseIconButton>
+              </BaseButton>
 
               <BaseSelect
                 class="w-1/3"
@@ -58,6 +59,7 @@
                 :options="toOptions"
                 placeholder="Selecciona isla"
                 :error="errors.to"
+                label="Hacia"
               />
             </template>
           </div>
@@ -71,11 +73,13 @@
             v-bind="departureDateAttrs"
             :error="errors.departureDate"
             :min="new Date().toISOString().split('T')[0]"
+            label="Fecha de salida"
           />
         </div>
 
         <div class="mb-4">
           <BaseSelect
+            label="Pasajeros"
             v-model="numberPassengers"
             v-bind="numberPassengersAttrs"
             :options="[
@@ -94,20 +98,21 @@
         </div>
       </form>
     </section>
+    {{ ferryStore.count }}
   </section>
 </template>
 
 <script setup lang="ts">
-import BaseButton from '@/components/BaseButton.vue';
-import BaseIconButton from '@/components/BaseIconButton.vue';
-import BaseInput from '@/components/BaseInput.vue';
-import BaseRadio from '@/components/BaseRadio.vue';
-import BaseSelect from '@/components/BaseSelect.vue';
-import SwitchHorizontalIcon from '@/icons/SwitchHorizontalIcon.vue';
-import UsersIcon from '@/icons/UsersIcon.vue';
+import BaseButton from '@/shared/components/commons/BaseButton.vue';
+import BaseInput from '@/shared/components/commons/BaseInput.vue';
+import BaseRadio from '@/shared/components/commons/BaseRadio.vue';
+import BaseSelect from '@/shared/components/commons/BaseSelect.vue';
+import SwitchHorizontalIcon from '@/shared/components/icons/SwitchHorizontalIcon.vue';
+import UsersIcon from '@/shared/components/icons/UsersIcon.vue';
 import { useForm } from 'vee-validate';
-import { computed, watch } from 'vue';
+import { computed, watch, type Ref } from 'vue';
 import * as yup from 'yup';
+import { useFerryStore } from '../stores/ferryStore';
 
 interface FormValues {
   ticketType: 'one_way' | 'round_trip';
@@ -129,6 +134,7 @@ const validationSchema = yup.object({
   numberPassengers: yup.number().required(),
 });
 
+const ferryStore = useFerryStore();
 const { values, errors, handleSubmit, defineField, setFieldValue } = useForm<FormValues>({
   validationSchema,
   initialValues: {
@@ -143,31 +149,34 @@ const [departureDate, departureDateAttrs] = defineField('departureDate');
 const [numberPassengers, numberPassengersAttrs] = defineField('numberPassengers');
 
 const islandsOptions = [
-  { label: { title: 'Santa Cruz', subtitle: 'Santa Cruz' }, value: 'santa_cruz' },
-  { label: 'San Cristóbal', value: 'san_cristobal' },
-  { label: 'Isabela', value: 'isabela' },
+  { label: { title: 'Santa Cruz', subtitle: 'Puerto Ayora' }, value: 'santa_cruz' },
+  {
+    label: { title: 'San Cristóbal', subtitle: 'Puerto Baquerizo Moreno' },
+    value: 'san_cristobal',
+  },
+  { label: { title: 'Isabela', subtitle: 'Puerto Villamil' }, value: 'isabela' },
 ];
 
-const fromOptions = computed(() => {
+const islandsOptionsTransfer = (field: Ref<string, string>) => {
   return islandsOptions.map((option) => {
     return {
       ...option,
-      disabled: option.value === to.value,
+      disabled: option.value === field.value,
     };
   });
+};
+
+const fromOptions = computed(() => {
+  return islandsOptionsTransfer(to);
 });
 
 const toOptions = computed(() => {
-  return islandsOptions.map((option) => {
-    return {
-      ...option,
-      disabled: option.value === from.value,
-    };
-  });
+  return islandsOptionsTransfer(from);
 });
 
 const onSubmit = handleSubmit((values) => {
   console.log({ values });
+  ferryStore.increment();
 });
 
 const clickMe = () => {
@@ -184,4 +193,5 @@ watch(ticketType, (newValue, oldValue) => {
     setFieldValue('to', '');
   }
 });
+// const { username } = storeToRefs(useAuthStore());
 </script>

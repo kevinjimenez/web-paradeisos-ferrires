@@ -38,8 +38,9 @@ defineEmits(['update:modelValue', 'blur']);
 </script> -->
 
 <template>
-  <div class="flex flex-col gap-2">
-    <label class="input w-full gap-2">
+  <fieldset class="fieldset">
+    <legend v-if="label" class="fieldset-legend">{{ label }}</legend>
+    <label class="input w-full gap-2" :class="[{ 'border-secondary border': error }]">
       <slot v-if="type !== 'date'" />
       <input
         :type="type"
@@ -47,11 +48,12 @@ defineEmits(['update:modelValue', 'blur']);
         :value="modelValue"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value ?? '')"
         @blur="$emit('blur')"
-        :class="['grow date-input', { 'border-secondary': error }]"
+        :class="[{ 'date-input': type === 'date' }]"
       />
     </label>
-    <span v-if="error" class="text-secondary text-sm">{{ error }}</span>
-  </div>
+    <p v-if="helperText && !error" class="label">{{ helperText }}</p>
+    <span v-if="error" class="text-secondary text-xs">{{ error }}</span>
+  </fieldset>
 </template>
 
 <script setup lang="ts">
@@ -60,6 +62,8 @@ interface Props {
   error?: string;
   type?: 'text' | 'number' | 'date';
   min?: string;
+  label?: string;
+  helperText?: string;
 }
 
 withDefaults(defineProps<Props>(), {

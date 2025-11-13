@@ -22,7 +22,8 @@
 </template> -->
 
 <template>
-  <div class="flex flex-col items-start gap-2">
+  <fieldset class="fieldset">
+    <legend v-if="label" class="fieldset-legend">{{ label }}</legend>
     <div class="relative w-full">
       <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-gray-500">
         <slot />
@@ -31,7 +32,7 @@
         :value="modelValue"
         @change="$emit('update:modelValue', ($event.target as HTMLSelectElement)?.value ?? '')"
         @blur="$emit('blur')"
-        :class="['select select-primary w-full pl-10', { 'border-secondary': error }]"
+        :class="['select select-primary w-full', { 'border-secondary': error, 'pl-10': hasIcon }]"
       >
         <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
         <option
@@ -44,12 +45,13 @@
         </option>
       </select>
     </div>
-    <span v-if="error" class="text-secondary text-sm">{{ error }}</span>
-  </div>
+    <p v-if="helperText && !error" class="label">{{ helperText }}</p>
+    <span v-if="error" class="text-secondary text-xs">{{ error }}</span>
+  </fieldset>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { computed, onMounted, useSlots } from 'vue';
 
 interface Props {
   modelValue?: string | number;
@@ -64,7 +66,12 @@ interface Props {
   >;
   placeholder?: string;
   error?: string;
+  helperText?: string;
+  label?: string;
 }
+
+const slots = useSlots();
+const hasIcon = computed(() => !!slots.default);
 
 const props = defineProps<Props>();
 
