@@ -1,16 +1,10 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type { FerrySearchFormValues } from '../interfaces';
+import { INIT_FERRY_SEARCH_FORM } from '../constants';
 
 export const useFerryStore = defineStore('ferry', () => {
-  const ferrySearch = ref<FerrySearchFormValues>({
-    ticketType: 'one_way',
-    from: '',
-    to: '',
-    departureDate: '',
-    returnDate: '',
-    numberPassengers: 1,
-  });
+  const ferrySearch = ref<FerrySearchFormValues>(INIT_FERRY_SEARCH_FORM);
 
   const ferrySearchComputed = computed(() => ferrySearch.value);
 
@@ -19,5 +13,10 @@ export const useFerryStore = defineStore('ferry', () => {
     console.log({ ferrySearch: ferrySearch.value });
   };
 
-  return { ferrySearchComputed, setFerrySearch };
+  const clearFerrySearch = () => {
+    ferrySearch.value = INIT_FERRY_SEARCH_FORM;
+    console.log('Ferry search cleared');
+  };
+
+  return { ferrySearchComputed, setFerrySearch, clearFerrySearch };
 });

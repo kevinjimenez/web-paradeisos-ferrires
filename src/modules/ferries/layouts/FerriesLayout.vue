@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-primary min-h-screen items-center justify-center flex">
+  <main class="min-h-screen bg-primary/30">
     <RouterView />
   </main>
 </template>
