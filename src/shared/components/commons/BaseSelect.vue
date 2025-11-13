@@ -51,70 +51,33 @@
 </template>
 
 <script setup lang="ts">
+import type { BaseSelectProps, SelectOption, SelectOptionItem } from '@/shared/interfaces';
 import { computed, onMounted, useSlots } from 'vue';
-
-interface Props {
-  modelValue?: string | number;
-  options: Array<
-    | string
-    | number
-    | {
-        label: string | { title: string; subtitle: string };
-        value: string | number;
-        disabled?: boolean;
-      }
-  >;
-  placeholder?: string;
-  error?: string;
-  helperText?: string;
-  label?: string;
-}
 
 const slots = useSlots();
 const hasIcon = computed(() => !!slots.default);
 
-const props = defineProps<Props>();
+const props = defineProps<BaseSelectProps>();
 
 const emit = defineEmits(['update:modelValue', 'blur']);
 
-const getOptionValue = (
-  option:
-    | string
-    | number
-    | { label: string | { title: string; subtitle: string }; value: string | number },
-) => {
-  return typeof option === 'object' ? option.value : option;
-};
-
-const getOptionLabel = (
-  option:
-    | string
-    | number
-    | { label: string | Record<string, string | number>; value: string | number },
-) => {
+const getOptionValue = (option: SelectOptionItem) => {
   if (typeof option === 'object') {
-    if (typeof option.label === 'string') {
-      return option.label;
+    if (typeof option.value !== 'object') {
+      return option.value;
     } else {
-      // Concatenate title and subtitle with a separator
-      const title = option.label['title'] || '';
-      const subtitle = option.label['subtitle'] || '';
-      return subtitle ? `${title} (${subtitle})` : title;
+      return (option.value as SelectOption).value as string | number;
     }
+  } else {
+    return option;
   }
-  return option;
 };
 
-const getOptionDisabled = (
-  option:
-    | string
-    | number
-    | {
-        label: string | { title: string; subtitle: string };
-        value: string | number;
-        disabled?: boolean;
-      },
-) => {
+const getOptionLabel = (option: SelectOptionItem) => {
+  return typeof option === 'object' ? option.label : option;
+};
+
+const getOptionDisabled = (option: SelectOptionItem) => {
   return typeof option === 'object' && option.disabled ? true : false;
 };
 

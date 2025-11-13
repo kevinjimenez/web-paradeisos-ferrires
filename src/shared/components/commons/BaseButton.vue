@@ -10,11 +10,9 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  type?: 'button' | 'submit' | 'reset';
-  circle?: boolean;
-}
-withDefaults(defineProps<Props>(), {
+import type { BaseButtonProps } from '@/shared/interfaces';
+
+withDefaults(defineProps<BaseButtonProps>(), {
   type: 'button',
   circle: false,
 });

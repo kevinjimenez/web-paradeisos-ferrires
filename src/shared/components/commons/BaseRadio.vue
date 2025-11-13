@@ -18,16 +18,9 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  modelValue?: string | number;
-  value: string | number | boolean;
-  name: string;
-  label?: string;
-  error?: string;
-  id?: string;
-}
+import type { BaseRadioProps } from '@/shared/interfaces';
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<BaseRadioProps>(), {
   id: () => `radio-${Math.random().toString(36).substr(2, 9)}`,
 });
 

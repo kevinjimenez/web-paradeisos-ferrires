@@ -57,16 +57,9 @@ defineEmits(['update:modelValue', 'blur']);
 </template>
 
 <script setup lang="ts">
-interface Props {
-  modelValue?: string | number;
-  error?: string;
-  type?: 'text' | 'number' | 'date';
-  min?: string;
-  label?: string;
-  helperText?: string;
-}
+import type { BaseInputProps } from '@/shared/interfaces';
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<BaseInputProps>(), {
   type: 'text',
 });
 

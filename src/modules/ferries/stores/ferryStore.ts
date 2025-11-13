@@ -1,15 +1,9 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
+import type { FerrySearchFormValues } from '../interfaces';
 
 export const useFerryStore = defineStore('ferry', () => {
-  // const count = ref(0);
-  // const doubleCount = computed(() => count.value * 2);
-  // const increment = () => {
-  //   count.value++;
-  //   console.log(count.value);
-  // };
-
-  const ferrySearch = ref({
+  const ferrySearch = ref<FerrySearchFormValues>({
     ticketType: 'one_way',
     from: '',
     to: '',
@@ -20,8 +14,7 @@ export const useFerryStore = defineStore('ferry', () => {
 
   const ferrySearchComputed = computed(() => ferrySearch.value);
 
-  // TODO: fix type
-  const setFerrySearch = (values: any) => {
+  const setFerrySearch = (values: FerrySearchFormValues) => {
     ferrySearch.value = values;
     console.log({ ferrySearch: ferrySearch.value });
   };

@@ -1,8 +1,11 @@
 <template>
-  <main>Lista ferries</main>
-  <pre>
+  <main class="container mx-auto">
+    <h1>Lista ferries</h1>
+    <pre>
     {{ ferryStore.ferrySearchComputed }}
-  </pre>
+  </pre
+    >
+  </main>
 </template>
 
 <script setup lang="ts">
