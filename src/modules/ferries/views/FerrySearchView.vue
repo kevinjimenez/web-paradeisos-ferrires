@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import FerrySearchForm from '../components/FerrySearchForm.vue';
+import FerrySearchForm from '../components/forms/FerrySearchForm.vue';
 import { useFerryStore } from '../stores/ferryStore';
 import type { FerrySearchFormValues } from '../interfaces';
 
@@ -27,6 +27,6 @@ const router = useRouter();
 
 const handleFormSubmit = (values: FerrySearchFormValues) => {
   ferryStore.setFerrySearch(values);
-  router.push({ name: 'ferries' });
+  router.back();
 };
 </script>
