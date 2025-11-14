@@ -100,9 +100,9 @@ import UsersIcon from '@/shared/components/icons/UsersIcon.vue';
 import { useForm } from 'vee-validate';
 import { computed, watch, type Ref } from 'vue';
 import * as yup from 'yup';
-import type { FerrySearchFormValues } from '../interfaces';
 import type { BaseRadioProps, SelectOption } from '@/shared/interfaces';
 import dayjs from 'dayjs';
+import type { FerrySearchFormValues } from '../../interfaces';
 
 const initialDate = dayjs().add(1, 'day').format('YYYY-MM-DD');
 
